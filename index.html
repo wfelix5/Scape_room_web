@@ -5,24 +5,26 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Escape Room</title>
+<title>Scape Room </title>
 
 <style>
-    /* FIX: Variable CSS para la altura real de la ventana en iOS (100vh fix) */
+    /* 1. MEJORA: Definición de colores y estilos principales */
     :root {
         --app-height: 100vh;
+        --color-fondo: #0a0f24;
+        --color-primario: #5ca9ff; /* Azul brillante */
+        --color-secundario: #e0e6ff; /* Blanco/Gris claro */
+        --color-exito: #00cc52;
+        --color-error: #ff4d4d;
     }
 
     body {
         margin: 0;
-        padding: 20px;
-        box-sizing: border-box; 
-        
+        padding: 0;
         min-height: 100vh; 
-        min-height: var(--app-height); /* La altura dinámica y correcta para iOS */
-
-        background: linear-gradient(135deg, #0a0f24, #1a2647);
-        color: #e0e6ff;
+        min-height: var(--app-height); 
+        background: radial-gradient(circle at center, #1a2647 0%, var(--color-fondo) 100%);
+        color: var(--color-secundario);
         font-family: 'Segoe UI', sans-serif;
         display: flex;
         flex-direction: column;
@@ -31,95 +33,155 @@
         overflow: hidden; 
     }
 
-    h1 {
-        font-size: 2.5rem;
+    /* 2. MEJORA: Contenedor principal con sombra y fondo semi-transparente */
+    .container {
+        padding: 40px;
+        border-radius: 20px;
+        background: rgba(26, 38, 71, 0.7); /* Fondo semi-transparente */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--color-primario);
+        width: 90%;
+        max-width: 450px;
         text-align: center;
-        text-shadow: 0 0 10px #5ca9ff;
-        animation: fadeIn 1s ease-out forwards;
+        backdrop-filter: blur(5px); /* Efecto de desenfoque detrás (Moderno) */
     }
 
-    #main, #final, #incorrecto {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        animation: fadeIn 1s ease-out forwards;
-    }
-
-    input {
-        margin-top: 20px;
-        padding: 15px;
+    h1 {
         font-size: 2rem;
-        width: 90%; 
-        max-width: 300px;
+        text-align: center;
+        color: var(--color-primario);
+        text-shadow: 0 0 8px var(--color-primario);
+        margin-bottom: 30px;
+    }
+    
+    p {
+        font-size: 1rem;
+        color: var(--color-secundario);
+        opacity: 0.8;
+    }
+
+    /* 3. MEJORA: Estilo del Input (Efecto de neón sutil) */
+    input {
+        margin: 20px 0;
+        padding: 15px;
+        font-size: 2.2rem;
+        width: 100%;
         box-sizing: border-box;
-        border-radius: 12px;
-        border: 2px solid #5ca9ff;
-        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+        border: 2px solid var(--color-primario);
+        background: rgba(255,255,255,0.05);
         color: #fff;
         text-align: center;
-        letter-spacing: 8px;
+        letter-spacing: 10px; /* Más espacio entre letras */
         outline: none;
+        transition: 0.3s;
+        box-shadow: 0 0 5px rgba(92, 169, 255, 0.5);
+    }
+    input:focus {
+        border-color: #fff;
+        box-shadow: 0 0 15px var(--color-primario); /* Resplandor al escribir */
     }
     input::placeholder {
-        color: #9bb3d1;
+        color: var(--color-secundario);
+        opacity: 0.4;
     }
 
+    /* 4. MEJORA: Botón con un diseño 3D suave */
     button {
         margin-top: 25px;
         padding: 15px 40px;
         font-size: 1.3rem;
-        border-radius: 12px;
+        border-radius: 10px;
         border: none;
         cursor: pointer;
-        background: #5ca9ff;
-        color: #0a0f24;
+        background: var(--color-primario);
+        color: var(--color-fondo);
         font-weight: bold;
-        transition: 0.3s;
-        box-shadow: 0 0 15px #5ca9ff;
+        transition: 0.2s ease-out;
+        box-shadow: 0 4px 0 var(--color-fondo); /* Efecto 3D */
+    }
+    button:active {
+        transform: translateY(4px); /* Presionar el botón */
+        box-shadow: 0 0 0 var(--color-fondo);
     }
     button:hover {
         background: #82c2ff;
-        box-shadow: 0 0 25px #82c2ff;
     }
 
-    #final { display: none; }
-    #final h1 { font-size: 4rem; color: #7fffb2; text-shadow: 0 0 20px #1aff66, 0 0 40px #00cc52; animation: explode 0.8s ease-out forwards; }
-    #incorrecto { display: none; }
-    #incorrecto h1 { font-size: 2.5rem; color: #ff7f7f; text-shadow: 0 0 15px #ff4d4d; }
-    #incorrecto p { font-size: 1.2rem; color: #e0e6ff; margin-top: 0; }
-    #incorrecto button { background: #ff7f7f; box-shadow: 0 0 15px #ff7f7f; }
-    #incorrecto button:hover { background: #ff9999; box-shadow: 0 0 25px #ff9999; }
+    /* Pantalla de Éxito */
+    #final h1 {
+        font-size: 3rem;
+        color: var(--color-exito);
+        text-shadow: 0 0 20px var(--color-exito), 0 0 40px rgba(0, 204, 82, 0.4);
+    }
+
+    /* Pantalla de Error */
+    #incorrecto h1 {
+        font-size: 2.5rem;
+        color: var(--color-error);
+        text-shadow: 0 0 15px var(--color-error);
+    }
+    #incorrecto button {
+        background: var(--color-error);
+        color: var(--color-fondo);
+        box-shadow: 0 4px 0 var(--color-fondo);
+    }
+    #incorrecto button:hover {
+        background: #ff7f7f;
+    }
+    
+    /* Contenedores de pantallas */
+    #main, #final, #incorrecto {
+        display: none; /* Se establece a 'flex' por JS al inicio */
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* Animaciones (Se mantienen) */
     @keyframes fadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-    @keyframes explode { 0% { opacity: 0; transform: scale(0.2); } 60% { transform: scale(1.3); } 100% { transform: scale(1); opacity: 1; } }
-    @media (max-width: 400px) { h1 { font-size: 2rem; } #final h1 { font-size: 2.8rem; } #incorrecto h1 { font-size: 1.8rem; } input { font-size: 1.5rem; letter-spacing: 4px; padding: 12px; } button { font-size: 1.1rem; padding: 12px 30px; } }
+    @keyframes explode { 0% { opacity: 0; transform: scale(0.2); } 100% { opacity: 1; transform: scale(1); } }
+    
+    /* Adaptación móvil (Se mantiene) */
+    @media (max-width: 500px) {
+        .container { padding: 30px 20px; }
+        h1 { font-size: 1.8rem; }
+        input { font-size: 1.8rem; letter-spacing: 6px; }
+        button { font-size: 1.1rem; padding: 12px 30px; }
+        #final h1 { font-size: 2.5rem; }
+    }
+
 </style>
 </head>
 
 <body>
 
-<div id="main">
-    <h1>Escape Room</h1>
-    <input id="codigo" maxlength="5" placeholder="CÓDIGO">
-    <button id="validarBtn">VALIDAR</button>
-</div>
+<div class="container">
+    
+    <div id="main">
+        <h1>Escape Room: Saber Logístico</h1>
+        <p>Introduce el código de 5 dígitos para escapar.</p>
+        <input id="codigo" maxlength="5" placeholder="CÓDIGO">
+        <button id="validarBtn">VALIDAR</button>
+    </div>
 
-<div id="final">
-    <h1>¡HAS ESCAPADO!</h1>
-    <button id="reiniciarBtn">REINICIAR</button>
-</div>
+    <div id="final">
+        <h1>¡HAS ESCAPADO!</h1>
+        <button id="reiniciarBtn">REINICIAR</button>
+    </div>
 
-<div id="incorrecto">
-    <h1>CÓDIGO INCORRECTO</h1>
-    <p>Vuelve a intentarlo.</p>
-    <button id="reintentarBtn">REINTENTAR</button>
-</div>
+    <div id="incorrecto">
+        <h1>CÓDIGO INCORRECTO</h1>
+        <p>Vuelve a intentarlo.</p>
+        <button id="reintentarBtn">REINTENTAR</button>
+    </div>
 
-
-<script>
+</div> <script>
 const codigoCorrecto = "70317";
 
-// ** FIX: Función para calcular y aplicar la altura real en iOS **
+// ** FIX: Inicializar la pantalla principal **
+document.getElementById("main").style.display = "flex";
+
+// ** FIX: Función para calcular y aplicar la altura real en iOS (100vh fix) **
 const setAppHeight = () => {
     const vh = window.innerHeight;
     document.documentElement.style.setProperty('--app-height', `${vh}px`);
