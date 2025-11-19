@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Escape Room</title>
+<title>Escape Room | Saber Logístico</title>
 
 <style>
     :root {
@@ -28,108 +28,121 @@
         align-items: center;
         justify-content: center;
         overflow: hidden; 
-        user-select: none; /* Evita que se seleccione texto al tocar rápido */
+        user-select: none;
     }
 
     .container {
-        padding: 20px; /* Reducido un poco para dar espacio al teclado */
-        border-radius: 20px;
+        /* Ajuste: un poco más de ancho máximo para dar aire */
+        padding: 25px; 
+        border-radius: 25px;
         background: rgba(26, 38, 71, 0.85);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--color-primario);
         width: 90%;
-        max-width: 400px; /* Un poco más estrecho para parecer un panel */
+        max-width: 420px; /* Un poco más ancho */
         text-align: center;
         backdrop-filter: blur(10px);
         border: 1px solid rgba(92, 169, 255, 0.3);
+        box-sizing: border-box;
     }
 
     h1 {
-        font-size: 1.8rem;
+        font-size: 2rem; /* Texto un poco más grande */
         text-align: center;
         color: var(--color-primario);
         text-shadow: 0 0 8px var(--color-primario);
-        margin: 0 0 15px 0;
+        margin: 0 0 20px 0;
+        font-weight: bold;
     }
     
     p {
-        font-size: 1rem;
+        font-size: 1.1rem;
         color: var(--color-secundario);
-        opacity: 0.8;
-        margin-bottom: 15px;
+        opacity: 0.9;
+        margin-bottom: 20px;
     }
 
     /* INPUT (Pantalla del código) */
     input {
-        margin-bottom: 20px;
+        margin-bottom: 25px;
         padding: 15px;
-        font-size: 2.5rem;
+        font-size: 2.8rem; /* Números más grandes en pantalla */
         width: 100%;
         box-sizing: border-box;
-        border-radius: 8px;
+        border-radius: 12px;
         border: 2px solid var(--color-primario);
-        background: #050814; /* Fondo muy oscuro para parecer pantalla LCD */
+        background: #050814;
         color: #fff;
         text-align: center;
         letter-spacing: 12px;
         outline: none;
-        box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
-        font-family: monospace; /* Fuente tipo código */
-        pointer-events: none; /* Evita que salga el teclado del celular */
+        box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+        font-family: monospace;
+        pointer-events: none;
     }
 
     /* TECLADO NUMÉRICO (Grid) */
     .keypad {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 columnas */
-        gap: 12px;
-        margin-bottom: 20px;
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+        gap: 15px; /* MEJORA: Más espacio entre botones */
+        margin-bottom: 25px;
+        width: 100%; /* MEJORA: Ocupar todo el ancho disponible */
+        box-sizing: border-box;
     }
 
     /* Botones del teclado numérico */
     .key {
-        padding: 15px 0;
-        font-size: 1.5rem;
+        width: 100%; /* Asegura que el botón llene su celda */
+        padding: 18px 0; /* Ajuste vertical para que no se vean tan estirados */
+        font-size: 1.8rem; /* Números más legibles */
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
         color: white;
-        border-radius: 8px;
+        border-radius: 12px; /* Bordes más suaves */
         cursor: pointer;
         transition: 0.1s;
         font-weight: bold;
+        display: flex; /* Centrado perfecto */
+        align-items: center;
+        justify-content: center;
     }
     .key:active {
         background: var(--color-primario);
         color: #000;
         transform: scale(0.95);
+        border-color: var(--color-primario);
     }
 
     /* Botón de borrar (C) y retroceso (<) */
     .key-action {
-        background: rgba(255, 77, 77, 0.2);
-        border-color: rgba(255, 77, 77, 0.4);
+        background: rgba(255, 77, 77, 0.15);
+        border-color: rgba(255, 77, 77, 0.3);
+        font-size: 1.4rem; /* Iconos un poco más pequeños que los números */
     }
     .key-action:active {
         background: var(--color-error);
+        color: white;
     }
 
     /* Botón Principal (VALIDAR) */
     .btn-main {
         width: 100%;
-        padding: 15px;
-        font-size: 1.3rem;
-        border-radius: 10px;
+        padding: 18px;
+        font-size: 1.4rem;
+        border-radius: 12px;
         border: none;
         cursor: pointer;
         background: var(--color-primario);
-        color: var(--color-fondo);
-        font-weight: bold;
-        box-shadow: 0 0 15px rgba(92, 169, 255, 0.4);
+        color: #0a0f24; /* Texto oscuro para contraste */
+        font-weight: 800; /* Extra negrita */
+        box-shadow: 0 0 20px rgba(92, 169, 255, 0.4);
         transition: 0.2s;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 1px;
     }
     .btn-main:active {
         transform: scale(0.98);
+        box-shadow: 0 0 10px rgba(92, 169, 255, 0.2);
     }
 
     /* PANTALLAS FINALES */
@@ -145,7 +158,7 @@
     }
     
     #main, #final, #incorrecto {
-        display: none; /* Se maneja con JS */
+        display: none;
         flex-direction: column;
         align-items: center;
         width: 100%;
@@ -156,9 +169,10 @@
     
     /* Ajustes para móviles muy pequeños */
     @media (max-width: 380px) {
-        .container { padding: 15px; }
-        input { font-size: 2rem; letter-spacing: 8px; }
-        .key { padding: 12px 0; font-size: 1.3rem; }
+        .container { padding: 15px; width: 95%; }
+        input { font-size: 2.2rem; letter-spacing: 8px; }
+        .key { padding: 15px 0; font-size: 1.5rem; }
+        h1 { font-size: 1.5rem; }
     }
 
 </style>
@@ -192,7 +206,7 @@
 
     <div id="final">
         <h1>¡HAS LOGRADO ESCAPAR!</h1>
-        <button class="btn-main" style="background: var(--color-exito);" id="reiniciarBtn">SALIR</button>
+        <button class="btn-main" style="background: var(--color-exito); color: #0a0f24;" id="reiniciarBtn">SALIR</button>
     </div>
 
     <div id="incorrecto">
@@ -220,7 +234,7 @@ window.addEventListener('resize', setAppHeight);
 const input = document.getElementById("codigo");
 
 function agregarNumero(num) {
-    if (input.value.length < 5) { // Límite de 5 dígitos
+    if (input.value.length < 5) {
         input.value += num;
     }
 }
@@ -233,16 +247,11 @@ function borrarUno() {
     input.value = input.value.slice(0, -1);
 }
 
-// Asignar eventos a las teclas numéricas (0-9)
+// Asignar eventos a las teclas
 document.querySelectorAll('.key').forEach(boton => {
-    // Si es un número (no tiene ID especial)
     if (!boton.id) {
         const numero = boton.innerText;
-        
-        // Click normal
         boton.addEventListener('click', () => agregarNumero(numero));
-        
-        // Touchend para iOS (respuesta rápida)
         boton.addEventListener('touchend', (e) => {
             e.preventDefault();
             agregarNumero(numero);
@@ -250,11 +259,10 @@ document.querySelectorAll('.key').forEach(boton => {
     }
 });
 
-// Botones de borrar del teclado
+// Botones de acción (C y Borrar)
 const btnC = document.getElementById("btnBorrarTodo");
 const btnBack = document.getElementById("btnBorrarUno");
 
-// Eventos borrar
 btnC.addEventListener('click', borrarTodo);
 btnC.addEventListener('touchend', (e) => { e.preventDefault(); borrarTodo(); });
 
@@ -262,7 +270,7 @@ btnBack.addEventListener('click', borrarUno);
 btnBack.addEventListener('touchend', (e) => { e.preventDefault(); borrarUno(); });
 
 
-// --- LÓGICA DE VALIDACIÓN ---
+// --- VALIDACIÓN ---
 function verificar() {
     const val = input.value;
     if (val === codigoCorrecto) {
@@ -289,17 +297,16 @@ function cambiarPantalla(idMostrar) {
     document.getElementById(idMostrar).style.display = "flex";
 }
 
-// Asignar eventos a los botones principales (Validar, Reiniciar, Reintentar)
+// Botones Principales
 const validarBtn = document.getElementById("validarBtn");
 const reiniciarBtn = document.getElementById("reiniciarBtn");
 const reintentarBtn = document.getElementById("reintentarBtn");
 
-// Click
 validarBtn.addEventListener('click', verificar);
 reiniciarBtn.addEventListener('click', reiniciar);
 reintentarBtn.addEventListener('click', reintentar);
 
-// Touchend (iOS Fix)
+// FIX iOS
 validarBtn.addEventListener('touchend', (e) => { e.preventDefault(); verificar(); });
 reiniciarBtn.addEventListener('touchend', (e) => { e.preventDefault(); reiniciar(); });
 reintentarBtn.addEventListener('touchend', (e) => { e.preventDefault(); reintentar(); });
